@@ -4,15 +4,18 @@
     padding: 0;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.3s;
+    transition: box-shadow 0.3s, transform 0.2s;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     height: 100%;
+    cursor: pointer;
+    position: relative;
 }
 
 .game-card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
 }
 
 .game-image-container {
@@ -38,10 +41,10 @@
 }
 
 .game-title {
-    font-size: 1.1rem; /* Reduced from 1.3rem */
+    font-size: 1.1rem;
     font-weight: bold;
     color: #333;
-    margin: 12px 12px 6px; /* Reduced margins */
+    margin: 12px 12px 6px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -50,7 +53,7 @@
 }
 
 .game-details {
-    padding: 0 12px 12px; /* Reduced padding */
+    padding: 0 12px 12px;
     flex-grow: 1;
 }
 
@@ -84,10 +87,24 @@
     display: inline-block;
 }
 
-/* Added a compact layout for the info */
 .game-info-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 4px 8px; /* Reduced from 4px 12px */
-    margin-top: 6px; /* Reduced from 8px */
+    gap: 4px 8px;
+    margin-top: 6px;
+}
+
+.view-details-button {
+    background-color: #4a90e2;
+    color: white;
+    text-align: center;
+    padding: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    margin-top: auto;
+}
+
+.game-card:hover .view-details-button {
+    background-color: #3a7bc8;
 }

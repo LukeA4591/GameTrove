@@ -7,13 +7,14 @@ interface GameCardProps {
     game: Game
     genre?: Genre
     platforms: Platform[]
+    onGameSelect: (gameId: number) => void
 }
 
-export function GameCard({ game, genre, platforms }: GameCardProps) {
+export function GameCard({ game, genre, platforms, onGameSelect }: GameCardProps) {
     const [imageError, setImageError] = useState(false)
 
     return (
-        <div className="game-card">
+        <div className="game-card" onClick={() => onGameSelect(game.gameId)}>
             <div className="game-image-container">
                 <img
                     src={
@@ -58,6 +59,7 @@ export function GameCard({ game, genre, platforms }: GameCardProps) {
           </span>
                 </p>
             </div>
+            <div className="view-details-button">View Details</div>
         </div>
     )
 }
