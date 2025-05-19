@@ -1,0 +1,28 @@
+.sort-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.sort-label {
+    margin-right: 10px;
+    font-weight: 500;
+    color: #555;
+}
+
+.sort-select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+    min-width: 180px;
+}
+
+.sort-select:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}

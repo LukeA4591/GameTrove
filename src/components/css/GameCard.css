@@ -1,0 +1,93 @@
+.game-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.game-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.game-image-container {
+    width: 100%;
+    position: relative;
+    padding-top: 66.67%; /* 3:2 Aspect Ratio */
+    overflow: hidden;
+    background-color: #f0f0f0;
+}
+
+.game-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.game-card:hover .game-image {
+    transform: scale(1.05);
+}
+
+.game-title {
+    font-size: 1.1rem; /* Reduced from 1.3rem */
+    font-weight: bold;
+    color: #333;
+    margin: 12px 12px 6px; /* Reduced margins */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 6px;
+}
+
+.game-details {
+    padding: 0 12px 12px; /* Reduced padding */
+    flex-grow: 1;
+}
+
+.game-info {
+    margin-bottom: 4px;
+    color: #666;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.game-info span {
+    font-weight: 600;
+}
+
+.free-price {
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.rating {
+    color: #f57c00;
+    font-weight: 600;
+}
+
+.not-rated {
+    color: #999;
+    font-style: italic;
+}
+
+.platforms {
+    display: inline-block;
+}
+
+/* Added a compact layout for the info */
+.game-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 8px; /* Reduced from 4px 12px */
+    margin-top: 6px; /* Reduced from 8px */
+}
