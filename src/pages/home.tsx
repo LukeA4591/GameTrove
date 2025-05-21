@@ -1,4 +1,7 @@
-import React from "react"
+"use client"
+
+import type React from "react"
+
 import { useState, useEffect, useCallback } from "react"
 import type { Game, GamesResponse, Genre, Platform } from "../types/game"
 import { SearchInput } from "../components/search-input"
@@ -6,7 +9,7 @@ import { GamesList } from "../components/games-list"
 import { GameFilters, type FilterOptions } from "../components/game-filters"
 import { GameSort, type SortOption } from "../components/game-sort"
 import { GamePagination } from "../components/game-pagination"
-import '../components/css/Home.css';
+import "../components/css/Home.css"
 
 function Home() {
     const [searchQuery, setSearchQuery] = useState("")

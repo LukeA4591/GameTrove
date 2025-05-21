@@ -1,20 +1,34 @@
-import './css/GameCard.css'
+"use client"
+
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import type { Game, Genre, Platform } from "../types/game"
 import { formatPrice } from "../utils/format"
-import {useState} from "react";
+import "./css/GameCard.css"
 
 interface GameCardProps {
     game: Game
     genre?: Genre
     platforms: Platform[]
-    onGameSelect: (gameId: number) => void
+    onGameSelect?: (gameId: number) => void // Optional callback for similar games
 }
 
 export function GameCard({ game, genre, platforms, onGameSelect }: GameCardProps) {
     const [imageError, setImageError] = useState(false)
+    const navigate = useNavigate()
+
+    const handleCardClick = () => {
+        if (onGameSelect) {
+            // If onGameSelect is provided (for similar games in details page), use it
+            onGameSelect(game.gameId)
+        } else {
+            // Otherwise navigate to the game details page
+            navigate(`/games/${game.gameId}`)
+        }
+    }
 
     return (
-        <div className="game-card" onClick={() => onGameSelect(game.gameId)}>
+        <div className="game-card" onClick={handleCardClick}>
             <div className="game-image-container">
                 <img
                     src={

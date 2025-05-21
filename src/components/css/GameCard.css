@@ -18,10 +18,10 @@
     transform: translateY(-3px);
 }
 
-.game-image-container {
+.game-card .game-image-container {
     width: 100%;
     position: relative;
-    padding-top: 66.67%; /* 3:2 Aspect Ratio */
+    padding-top: 100%; /* 3:2 Aspect Ratio */
     overflow: hidden;
     background-color: #f0f0f0;
 }

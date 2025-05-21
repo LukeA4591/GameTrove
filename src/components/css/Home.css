@@ -1,5 +1,14 @@
+/* Reset any problematic styles */
+html,
+body {
+    height: auto !important;
+    overflow-y: auto !important;
+    margin: 0;
+    padding: 0;
+}
+
 .container {
-    max-width: 1400px; /* Increased from 1200px to allow more space */
+    max-width: 1400px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -36,14 +45,14 @@
 }
 
 .filters-sidebar {
-    width: 220px; /* Reduced from 250px */
+    width: 220px;
     flex-shrink: 0;
     box-sizing: border-box;
 }
 
 .results-container {
     flex-grow: 1;
-    min-width: 0; /* Prevents flex items from overflowing */
+    min-width: 0;
 }
 
 .results-info {
@@ -79,7 +88,7 @@
 .games-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    gap: 16px; /* Reduced from 20px to allow more space */
+    gap: 16px;
 }
 
 /* Updated breakpoints and column counts */

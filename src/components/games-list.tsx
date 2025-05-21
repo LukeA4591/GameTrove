@@ -1,9 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import type { Game, Genre, Platform } from "../types/game"
 import { GameCard } from "./game-card"
-import { GameDetails } from "./game-details"
 import type { FilterOptions } from "./game-filters"
 import "./css/GamesList.css"
 
@@ -32,32 +30,6 @@ export function GamesList({
                               pageSize,
                               totalGames,
                           }: GamesListProps) {
-    const [selectedGameId, setSelectedGameId] = useState<number | null>(null)
-
-    const handleGameSelect = (gameId: number) => {
-        setSelectedGameId(gameId)
-    }
-
-    const handleCloseDetails = () => {
-        setSelectedGameId(null)
-    }
-
-    // Listen for custom events to open game details (for similar games navigation)
-    useEffect(() => {
-        const handleOpenGameDetails = (event: Event) => {
-            const customEvent = event as CustomEvent
-            if (customEvent.detail && customEvent.detail.gameId) {
-                setSelectedGameId(customEvent.detail.gameId)
-            }
-        }
-
-        window.addEventListener("openGameDetails", handleOpenGameDetails)
-
-        return () => {
-            window.removeEventListener("openGameDetails", handleOpenGameDetails)
-        }
-    }, [])
-
     if (isLoading) {
         return (
             <div className="loading-message">
@@ -157,14 +129,9 @@ export function GamesList({
                         game={game}
                         genre={genres.find((g) => g.genreId === game.genreId)}
                         platforms={platforms.filter((p) => game.platformIds.includes(p.platformId))}
-                        onGameSelect={handleGameSelect}
                     />
                 ))}
             </div>
-
-            {selectedGameId !== null && (
-                <GameDetails gameId={selectedGameId} genres={genres} platforms={platforms} onClose={handleCloseDetails} />
-            )}
         </div>
     )
 }
