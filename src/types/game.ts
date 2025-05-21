@@ -25,3 +25,11 @@ export interface Platform {
     platformId: number
     name: string
 }
+
+export interface WishlistedResponse {
+    wishlisted: boolean
+}
+
+export interface OwnedResponse {
+    owned: boolean
+}

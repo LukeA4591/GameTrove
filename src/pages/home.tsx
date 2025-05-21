@@ -9,6 +9,7 @@ import { GamesList } from "../components/games-list"
 import { GameFilters, type FilterOptions } from "../components/game-filters"
 import { GameSort, type SortOption } from "../components/game-sort"
 import { GamePagination } from "../components/game-pagination"
+import { Header } from "../components/header"
 import "../components/css/Home.css"
 
 function Home() {
@@ -176,6 +177,7 @@ function Home() {
 
     return (
         <div className="page-container">
+            <Header />
             <div className="container">
                 <header className="header">
                     <h1>Game Search</h1>

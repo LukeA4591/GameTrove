@@ -1,0 +1,124 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    padding: 24px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-title {
+    margin: 0 0 16px 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.modal-message {
+    margin: 0 0 24px 0;
+    color: #555;
+    line-height: 1.5;
+}
+
+.modal-error {
+    background-color: #fff0f0;
+    border: 1px solid #ffcccc;
+    color: #cc0000;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.modal-cancel-button {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.modal-cancel-button:hover:not(:disabled) {
+    background-color: #e0e0e0;
+}
+
+.modal-confirm-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.modal-confirm-button:hover:not(:disabled) {
+    background-color: #c0392b;
+}
+
+.modal-cancel-button:disabled,
+.modal-confirm-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+    .modal-content {
+        padding: 20px;
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .modal-cancel-button,
+    .modal-confirm-button {
+        width: 100%;
+    }
+}

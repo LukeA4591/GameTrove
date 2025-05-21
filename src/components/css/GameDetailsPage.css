@@ -9,6 +9,19 @@
     line-height: 1.5;
 }
 
+/* Header actions */
+.game-header-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+/* Creator actions */
+.creator-actions {
+    display: flex;
+    gap: 10px;
+}
+
 /* Back button */
 .back-button {
     background-color: #4a90e2;
@@ -17,7 +30,6 @@
     padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
-    margin-bottom: 20px;
     font-size: 16px;
     font-weight: 500;
     display: inline-flex;
@@ -27,6 +39,48 @@
 
 .back-button:hover {
     background-color: #3a7bc8;
+}
+/* Edit button */
+.edit-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.edit-button:hover {
+    background-color: #218838;
+}
+
+/* Delete button */
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+
+.delete-button:hover:not(:disabled) {
+    background-color: #c82333;
+}
+
+.delete-button:disabled {
+    background-color: #e9a8ae;
+    cursor: not-allowed;
 }
 
 /* COMPLETELY REDESIGNED HEADER */
@@ -53,7 +107,8 @@
 }
 
 .game-image-cell {
-    display: table-cell;
+    display: flex;
+    flex-direction: column;
     vertical-align: top;
     width: 250px;
 }
@@ -66,6 +121,7 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #f0f0f0;
+    margin-bottom: 15px;
 }
 
 .game-details-container .game-image-container img {
@@ -259,7 +315,6 @@
 
 .game-details-container .similar-game-card img {
     width: 100%;
-    height: 150px;
     object-fit: contain; /* Maintain aspect ratio without cropping */
     background-color: #f0f0f0;
 }
@@ -315,6 +370,130 @@ body {
     margin-bottom: 20px;
 }
 
+
+/* Game actions */
+.game-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.wishlist-button {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    width: 100%;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wishlist-button:hover:not(:disabled) {
+    background-color: #e0e0e0;
+}
+
+.wishlist-button.wishlisted {
+    background-color: #ffd700;
+    color: #333;
+    border-color: #e6c200;
+}
+
+.wishlist-button.wishlisted:hover {
+    background-color: #e6c200;
+}
+
+.wishlist-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* Add styling for the own button and related elements */
+/* Add these styles after the wishlist button styles (around line 450) */
+
+.own-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    width: 100%;
+    margin-bottom: 10px;
+    transition: background-color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.own-button:hover:not(:disabled) {
+    background-color: #218838;
+}
+
+.own-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.owned-badge {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 500;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.remove-owned-button {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.2s;
+}
+
+.remove-owned-button:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.remove-owned-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.login-to-wishlist {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
+.login-to-wishlist:hover {
+    background-color: #3a7bc8;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .game-header {
@@ -330,6 +509,7 @@ body {
 
     .game-image-cell {
         margin-top: 20px;
+        align-items: center;
     }
 
     .game-details-container .game-image-container {
@@ -344,6 +524,31 @@ body {
 
     .game-details-container .similar-games-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .game-header-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .back-button,
+    .creator-actions {
+        width: 100%;
+    }
+
+    .creator-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .edit-button,
+    .delete-button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .game-actions {
+        margin-top: 10px;
     }
 }
 
