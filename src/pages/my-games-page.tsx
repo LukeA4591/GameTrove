@@ -234,6 +234,9 @@ export function MyGamesPage() {
                                             game={game}
                                             genre={genres.find((g) => g.genreId === game.genreId)}
                                             platforms={platforms.filter((p) => game.platformIds.includes(p.platformId))}
+                                            onGameSelect={(gameId) =>
+                                                navigate(`/games/${gameId}`, { state: { from: "my-games", category: activeCategory } })
+                                            }
                                         />
                                     ))}
                                 </div>

@@ -9,6 +9,8 @@ import { CreateGamePage } from "./pages/create-game-page"
 import { ProtectedRoute } from "./components/protected-route"
 import { EditGamePage } from "./pages/edit-game-page"
 import { MyGamesPage } from "./pages/my-games-page"
+import { ProfilePage } from "./pages/profile-page"
+import { EditProfilePage } from "./pages/edit-profile-page"
 
 function App() {
     return (
@@ -41,6 +43,22 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <MyGamesPage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/profile"
+                        element={
+                            <ProtectedRoute>
+                                <ProfilePage />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/edit-profile"
+                        element={
+                            <ProtectedRoute>
+                                <EditProfilePage />
                             </ProtectedRoute>
                         }
                     />

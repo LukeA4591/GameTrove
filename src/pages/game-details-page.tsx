@@ -185,7 +185,16 @@ export function GameDetailsPage() {
 
     // Handle back button
     const handleBackClick = () => {
-        navigate("/")
+        // Check if we have location state with a 'from' property
+        const state = location.state as { from?: string; category?: string } | null
+
+        if (state && state.from === "my-games") {
+            // If coming from my-games, navigate back to my-games with the active category
+            navigate("/my-games", { state: { activeCategory: state.category } })
+        } else {
+            // Otherwise, navigate to the home page
+            navigate("/")
+        }
     }
 
     // Handle edit button
