@@ -180,8 +180,7 @@ function Home() {
             <Header />
             <div className="container">
                 <header className="header">
-                    <h1>Game Search</h1>
-                    <p>Find your next favorite game</p>
+                    <h1>Find your next favorite game</h1>
                 </header>
 
                 <div className="search-wrapper">

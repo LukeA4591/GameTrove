@@ -75,21 +75,14 @@ export function ProfilePage() {
                     ) : profile ? (
                         <div className="profile-content">
                             <div className="profile-image-container">
-                                {!imageError ? (
-                                    <img
-                                        src={`http://localhost:4941/api/v1/users/${user?.userId}/image`}
-                                        alt="Profile"
-                                        className="profile-image"
-                                        onError={() => setImageError(true)}
-                                    />
-                                ) : (
-                                    <div className="profile-image-placeholder">
-                    <span>
-                      {profile.firstName.charAt(0)}
-                        {profile.lastName.charAt(0)}
-                    </span>
-                                    </div>
-                                )}
+                                <img className="profile-page-image"
+                                    src={`http://localhost:4941/api/v1/users/${user?.userId}/image`}
+                                    alt="Reviewer"
+                                    onError={(e) => {
+                                        const target = e.target as HTMLImageElement
+                                        target.src = "/PlaceholderIcon.png" // Using the public folder
+                                    }}
+                                />
                             </div>
 
                             <div className="profile-details">

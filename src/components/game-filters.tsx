@@ -25,6 +25,7 @@ export function GameFilters({ genres, platforms, initialFilters, onApplyFilters 
     const [priceInput, setPriceInput] = useState<string>(
         initialFilters.maxPrice !== null ? (initialFilters.maxPrice / 100).toFixed(2) : "",
     )
+    const [priceError, setPriceError] = useState<string | null>(null)
 
     const handleGenreChange = (genreId: number) => {
         setSelectedGenres((prev) => (prev.includes(genreId) ? prev.filter((id) => id !== genreId) : [...prev, genreId]))
@@ -42,14 +43,26 @@ export function GameFilters({ genres, platforms, initialFilters, onApplyFilters 
 
         if (value === "") {
             setMaxPrice(null)
+            setPriceError(null)
         } else {
-            // Convert dollars to cents
-            const priceInCents = Math.round(Number.parseFloat(value) * 100)
-            setMaxPrice(priceInCents)
+            const priceNum = Number.parseFloat(value)
+            if (priceNum < 0) {
+                setPriceError("Price cannot be less than 0")
+                setMaxPrice(null)
+            } else {
+                setPriceError(null)
+                // Convert dollars to cents
+                const priceInCents = Math.round(priceNum * 100)
+                setMaxPrice(priceInCents)
+            }
         }
     }
 
     const handleApplyFilters = () => {
+        // Prevent applying filters if there is a price error
+        if (priceError) {
+            return
+        }
         onApplyFilters({
             selectedGenres,
             selectedPlatforms,
@@ -126,10 +139,15 @@ export function GameFilters({ genres, platforms, initialFilters, onApplyFilters 
                         className="price-input"
                     />
                 </div>
+                {priceError && <div className="field-error">{priceError}</div>}
             </div>
 
             <div className="filter-actions">
-                <button onClick={handleApplyFilters} className="apply-filters-button" disabled={!hasChanges}>
+                <button
+                    onClick={handleApplyFilters}
+                    className="apply-filters-button"
+                    disabled={!hasChanges || !!priceError}
+                >
                     Apply Filters
                 </button>
                 <button onClick={clearFilters} className="clear-filters-button">
@@ -139,4 +157,3 @@ export function GameFilters({ genres, platforms, initialFilters, onApplyFilters 
         </div>
     )
 }
-

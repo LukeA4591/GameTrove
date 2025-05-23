@@ -170,9 +170,14 @@ export function LoginPage() {
 
                     <div className="register-link">
                         Don't have an account?{" "}
-                        <a href="#" onClick={() => navigate("/register")}>
+                        <button
+                            type="button"
+                            className="link-button"
+                            onClick={() => navigate("/register")}
+                            disabled={isSubmitting}
+                        >
                             Register
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>

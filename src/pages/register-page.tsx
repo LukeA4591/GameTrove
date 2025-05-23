@@ -17,6 +17,7 @@ export function RegisterPage() {
     const [lastName, setLastName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
     const [profileImage, setProfileImage] = useState<File | null>(null)
     const [imagePreview, setImagePreview] = useState<string | null>(null)
@@ -27,6 +28,7 @@ export function RegisterPage() {
         lastName?: string
         email?: string
         password?: string
+        confirmPassword?: string
         general?: string
     }>({})
 
@@ -82,6 +84,7 @@ export function RegisterPage() {
             lastName?: string
             email?: string
             password?: string
+            confirmPassword?: string
         } = {}
 
         // Validate first name
@@ -106,6 +109,13 @@ export function RegisterPage() {
             newErrors.password = "Password is required"
         } else if (password.length < 6) {
             newErrors.password = "Password must be at least 6 characters"
+        }
+
+        // Validate confirm password
+        if (!confirmPassword) {
+            newErrors.confirmPassword = "Please confirm your password"
+        } else if (password !== confirmPassword) {
+            newErrors.confirmPassword = "Passwords do not match"
         }
 
         setErrors(newErrors)
@@ -139,7 +149,15 @@ export function RegisterPage() {
                 }),
             })
 
-            const registerData = await registerResponse.json()
+            let registerData: any = {}
+            const text = await registerResponse.text()
+            if (text) {
+                try {
+                    registerData = JSON.parse(text)
+                } catch {
+                    registerData = {}
+                }
+            }
 
             if (!registerResponse.ok) {
                 // Handle registration errors
@@ -149,7 +167,7 @@ export function RegisterPage() {
                     })
                 } else if (registerResponse.status === 403) {
                     setErrors({
-                        email: "This email address is already in use.",
+                        email: "Email already in use.",
                     })
                 } else {
                     setErrors({
@@ -280,6 +298,19 @@ export function RegisterPage() {
                         </div>
 
                         <div className="form-group">
+                            <label htmlFor="confirmPassword">Confirm Password *</label>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                id="confirmPassword"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                className={errors.confirmPassword ? "input-error" : ""}
+                                disabled={isSubmitting}
+                            />
+                            {errors.confirmPassword && <div className="field-error">{errors.confirmPassword}</div>}
+                        </div>
+
+                        <div className="form-group">
                             <label htmlFor="profileImage">Profile Picture (Optional)</label>
                             <input
                                 type="file"
@@ -319,9 +350,14 @@ export function RegisterPage() {
 
                     <div className="login-link">
                         Already have an account?{" "}
-                        <a href="#" onClick={() => navigate("/login")}>
+                        <button
+                            type="button"
+                            className="link-button"
+                            onClick={() => navigate("/login")}
+                            disabled={isSubmitting}
+                        >
                             Log in
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>

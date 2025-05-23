@@ -47,7 +47,11 @@ export function Header() {
         <header className="app-header">
             <div className="header-container">
                 <Link to="/" className="header-logo">
-                    Game Search
+                    <span className="logo-icon" aria-label="GameTrove logo">🎮</span>
+                    <span className="logo-text">
+                        <span className="logo-main">Game</span>
+                        <span className="logo-accent">Trove</span>
+                    </span>
                 </Link>
 
                 <nav className="header-nav">

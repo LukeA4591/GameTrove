@@ -22,6 +22,9 @@ export function CreateGamePage() {
     const [gameImage, setGameImage] = useState<File | null>(null)
     const [imagePreview, setImagePreview] = useState<string | null>(null)
 
+    const TITLE_MAX_LENGTH = 128
+    const DESCRIPTION_MAX_LENGTH = 1024
+
     // Data from server
     const [genres, setGenres] = useState<Genre[]>([])
     const [platforms, setPlatforms] = useState<Platform[]>([])
@@ -153,6 +156,8 @@ export function CreateGamePage() {
         // Validate title
         if (!title.trim()) {
             newErrors.title = "Title is required"
+        } else if (title.length > TITLE_MAX_LENGTH) {
+            newErrors.title = `Title must be no more than ${TITLE_MAX_LENGTH} characters`
         }
 
         // Validate description
@@ -299,6 +304,7 @@ export function CreateGamePage() {
                                 type="text"
                                 id="title"
                                 value={title}
+                                maxLength={TITLE_MAX_LENGTH}
                                 onChange={(e) => {
                                     setTitle(e.target.value)
                                     setErrors((prev) => ({ ...prev, title: undefined }))
@@ -306,6 +312,9 @@ export function CreateGamePage() {
                                 className={errors.title ? "input-error" : ""}
                                 disabled={isSubmitting}
                             />
+                            <div className="char-counter faded">
+                                {title.length}/{TITLE_MAX_LENGTH}
+                            </div>
                             {errors.title && <div className="field-error">{errors.title}</div>}
                         </div>
 
@@ -314,6 +323,7 @@ export function CreateGamePage() {
                             <textarea
                                 id="description"
                                 value={description}
+                                maxLength={DESCRIPTION_MAX_LENGTH}
                                 onChange={(e) => {
                                     setDescription(e.target.value)
                                     setErrors((prev) => ({ ...prev, description: undefined }))
@@ -322,6 +332,9 @@ export function CreateGamePage() {
                                 disabled={isSubmitting}
                                 rows={5}
                             />
+                            <div className="char-counter faded">
+                                {description.length}/{DESCRIPTION_MAX_LENGTH}
+                            </div>
                             {errors.description && <div className="field-error">{errors.description}</div>}
                         </div>
 

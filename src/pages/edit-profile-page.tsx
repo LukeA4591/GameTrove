@@ -24,6 +24,7 @@ export function EditProfilePage() {
     const [email, setEmail] = useState("")
     const [currentPassword, setCurrentPassword] = useState("")
     const [newPassword, setNewPassword] = useState("")
+    const [confirmNewPassword, setConfirmNewPassword] = useState("")
     const [showCurrentPassword, setShowCurrentPassword] = useState(false)
     const [showNewPassword, setShowNewPassword] = useState(false)
     const [profileImage, setProfileImage] = useState<File | null>(null)
@@ -42,6 +43,7 @@ export function EditProfilePage() {
         email?: string
         currentPassword?: string
         newPassword?: string
+        confirmNewPassword?: string
         image?: string
         general?: string
     }>({})
@@ -156,6 +158,7 @@ export function EditProfilePage() {
             email?: string
             currentPassword?: string
             newPassword?: string
+            confirmNewPassword?: string
         } = {}
 
         // Validate first name
@@ -179,10 +182,25 @@ export function EditProfilePage() {
         if (newPassword) {
             if (!currentPassword) {
                 newErrors.currentPassword = "Current password is required to change password"
+            } else if (currentPassword.length < 6) {
+                newErrors.currentPassword = "Current password must be at least 6 characters"
             }
 
             if (newPassword.length < 6) {
-                newErrors.newPassword = "Password must be at least 6 characters"
+                newErrors.newPassword = "New password must be at least 6 characters"
+            }
+
+            if (!confirmNewPassword) {
+                newErrors.confirmNewPassword = "Please confirm your new password"
+            } else if (confirmNewPassword.length < 6) {
+                newErrors.confirmNewPassword = "Confirm new password must be at least 6 characters"
+            } else if (newPassword !== confirmNewPassword) {
+                newErrors.confirmNewPassword = "Passwords do not match"
+            }
+        } else if (currentPassword) {
+            // If currentPassword is provided but not changing password
+            if (currentPassword.length < 6) {
+                newErrors.currentPassword = "Current password must be at least 6 characters"
             }
         }
 
@@ -242,12 +260,11 @@ export function EditProfilePage() {
                     })
                 } else if (updateResponse.status === 401) {
                     setErrors({
-                        general: "You must be logged in to update your profile.",
+                        currentPassword: "Incorrect current password.",
                     })
                 } else if (updateResponse.status === 403) {
                     setErrors({
-                        email: "This email address is already in use.",
-                        general: "This email address is already in use.",
+                        newPassword: "New password must be different from current password.",
                     })
                 } else if (updateResponse.status === 404) {
                     setErrors({
@@ -409,6 +426,19 @@ export function EditProfilePage() {
                                         </button>
                                     </div>
                                     {errors.newPassword && <div className="field-error">{errors.newPassword}</div>}
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="confirmNewPassword">Confirm New Password</label>
+                                    <input
+                                        type={showNewPassword ? "text" : "password"}
+                                        id="confirmNewPassword"
+                                        value={confirmNewPassword}
+                                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                                        className={errors.confirmNewPassword ? "input-error" : ""}
+                                        disabled={isSubmitting}
+                                    />
+                                    {errors.confirmNewPassword && <div className="field-error">{errors.confirmNewPassword}</div>}
                                 </div>
                             </div>
 

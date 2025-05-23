@@ -1,6 +1,6 @@
 "use client"
 
-import {useState, useEffect} from "react"
+import {useState, useEffect, useCallback} from "react"
 import { useNavigate, useParams, useLocation } from "react-router-dom"
 import {formatPrice} from "../utils/format"
 import type {Game, Genre, Platform} from "../types/game"
@@ -295,10 +295,6 @@ export function GameDetailsPage() {
         try {
             const method = isWishlisted ? "DELETE" : "POST"
 
-            console.log(
-                `Sending ${method} request to toggle wishlist status. Current status: ${isWishlisted ? "wishlisted" : "not wishlisted"}`,
-            )
-
             const response = await fetch(`http://localhost:4941/api/v1/games/${gameId}/wishlist`, {
                 method,
                 headers: {
@@ -322,7 +318,6 @@ export function GameDetailsPage() {
 
             // Toggle wishlist state
             const newWishlistState = !isWishlisted
-            console.log(`Wishlist status toggled to: ${newWishlistState ? "wishlisted" : "not wishlisted"}`)
             setIsWishlisted(newWishlistState)
 
             // Refresh game details to update counts
@@ -349,10 +344,6 @@ export function GameDetailsPage() {
             // Use DELETE method when removing from owned, POST when adding to owned
             const method = isOwned ? "DELETE" : "POST"
 
-            console.log(
-                `Sending ${method} request to toggle owned status. Current status: ${isOwned ? "owned" : "not owned"}`,
-            )
-
             const response = await fetch(`http://localhost:4941/api/v1/games/${gameId}/owned`, {
                 method,
                 headers: {
@@ -376,7 +367,6 @@ export function GameDetailsPage() {
 
             // Toggle owned state
             const newOwnedState = !isOwned
-            console.log(`Owned status toggled to: ${newOwnedState ? "owned" : "not owned"}`)
             setIsOwned(newOwnedState)
 
             // If the game was wishlisted and is now owned, it should be removed from wishlist
@@ -398,7 +388,7 @@ export function GameDetailsPage() {
     }
 
 // Function to refresh wishlist status
-    const refreshWishlistStatus = async () => {
+    const refreshWishlistStatus = useCallback(async () => {
         if (!user || !gameId) return
 
         try {
@@ -413,7 +403,6 @@ export function GameDetailsPage() {
                 const wishlistData = await wishlistRes.json()
                 // Check if current game is in the wishlisted games list
                 const isGameWishlisted = wishlistData.games.some((g: Game) => g.gameId === Number(gameId))
-                console.log("Refreshed wishlist status:", isGameWishlisted)
                 setIsWishlisted(isGameWishlisted)
             } else {
                 console.error("Failed to refresh wishlisted games:", await wishlistRes.text())
@@ -437,14 +426,14 @@ export function GameDetailsPage() {
         } catch (err) {
             console.error("Error refreshing wishlist/owned status:", err)
         }
-    }
+    }, [user, gameId])
 
     // Add effect to refresh wishlist status when component mounts or when user changes
     useEffect(() => {
         if (user && gameId) {
             refreshWishlistStatus()
         }
-    }, [user, gameId])
+    }, [user, gameId, refreshWishlistStatus])
 
     if (loading) {
         return (
@@ -518,7 +507,11 @@ export function GameDetailsPage() {
                 <div className="game-header">
                     <div className="game-header-row">
                         <div className="game-header-info">
-                            <h1 className="game-title">{game.title}</h1>
+                            <h1 className="game-title" title={game.title}>
+                                {game.title.length > 47
+                                    ? game.title.slice(0, 47) + "..."
+                                    : game.title}
+                            </h1>
 
                             <div className="game-meta">
                                 <div className="meta-item">
@@ -616,7 +609,19 @@ export function GameDetailsPage() {
                 {/* Game Description */}
                 <div className="game-section">
                     <h2>About this game</h2>
-                    <p className="game-description">{game.description}</p>
+                    <p className="game-description" title={game.description}>
+                        {game.description.length > 100
+                            ? <>
+                                {game.description.slice(0, 100)}
+                                <br />
+                                {game.description.slice(100)}
+                            </>
+                            : <>
+                                {game.description}
+                                <br />
+                            </>
+                        }
+                    </p>
                 </div>
 
                 {/* Review Form - only show if user hasn't already reviewed */}
