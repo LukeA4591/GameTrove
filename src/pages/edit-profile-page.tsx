@@ -8,12 +8,6 @@ import { useAuth } from "../contexts/auth-context"
 import { Header } from "../components/header"
 import "../components/css/EditProfilePage.css"
 
-interface UserProfile {
-    firstName: string
-    lastName: string
-    email: string
-}
-
 export function EditProfilePage() {
     const navigate = useNavigate()
     const { user, isAuthenticated } = useAuth()

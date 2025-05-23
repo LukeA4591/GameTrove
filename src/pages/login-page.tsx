@@ -172,7 +172,7 @@ export function LoginPage() {
                         Don't have an account?{" "}
                         <button
                             type="button"
-                            className="link-button"
+                            className="register-link"
                             onClick={() => navigate("/register")}
                             disabled={isSubmitting}
                         >

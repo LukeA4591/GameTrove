@@ -20,7 +20,6 @@ export function EditGamePage() {
     const [selectedGenre, setSelectedGenre] = useState<number | null>(null)
     const [selectedPlatforms, setSelectedPlatforms] = useState<number[]>([])
     const [price, setPrice] = useState("")
-    const [originalCreatorId, setOriginalCreatorId] = useState<number | null>(null)
 
     // Data from server
     const [genres, setGenres] = useState<Genre[]>([])
@@ -87,7 +86,6 @@ export function EditGamePage() {
                 setSelectedGenre(gameData.genreId)
                 setSelectedPlatforms(gameData.platformIds || [])
                 setPrice((gameData.price / 100).toFixed(2)) // Convert cents to dollars
-                setOriginalCreatorId(gameData.creatorId)
 
                 setDataLoaded(true)
             } catch (err) {

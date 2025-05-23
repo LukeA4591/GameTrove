@@ -17,7 +17,6 @@ export function ProfilePage() {
     const [profile, setProfile] = useState<UserProfile | null>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
-    const [imageError, setImageError] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {

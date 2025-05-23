@@ -352,7 +352,7 @@ export function RegisterPage() {
                         Already have an account?{" "}
                         <button
                             type="button"
-                            className="link-button"
+                            className="login-link"
                             onClick={() => navigate("/login")}
                             disabled={isSubmitting}
                         >

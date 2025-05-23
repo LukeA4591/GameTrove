@@ -171,12 +171,21 @@ export function ReviewForm({ gameId, creatorId, onReviewSubmitted }: ReviewFormP
                             onChange={handleReviewChange}
                             placeholder="Share your thoughts about this game..."
                             rows={4}
+                            maxLength={512}
                             disabled={isSubmitting}
                         ></textarea>
+                        <div className="char-counter faded">
+                            {review.length}/512
+                        </div>
                     </div>
 
                     <div className="review-form-actions">
-                        <button type="button" className="cancel-button" onClick={() => setShowForm(false)} disabled={isSubmitting}>
+                        <button
+                            type="button"
+                            className="cancel-button"
+                            onClick={() => setShowForm(false)}
+                            disabled={isSubmitting}
+                        >
                             Cancel
                         </button>
                         <button type="submit" className="submit-button" disabled={isSubmitting}>

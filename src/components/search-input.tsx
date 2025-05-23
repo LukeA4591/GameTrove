@@ -11,7 +11,9 @@ export function SearchInput({ value, onChange, onSubmit }: SearchInputProps) {
     return (
         <form onSubmit={onSubmit} className="search-form">
             <div className="search-container">
-                <input type="text" placeholder="Search games" value={value} onChange={onChange} className="search-input" />
+                <input type="text" placeholder="Search games" value={value} onChange={onChange} className="search-input"
+                       maxLength={64}
+                />
                 <button type="submit" className="search-button">
                     Search
                 </button>
