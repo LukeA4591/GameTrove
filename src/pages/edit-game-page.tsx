@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useAuth } from "../contexts/auth-context"
 import { Header } from "../components/header"
@@ -20,8 +20,6 @@ export function EditGamePage() {
     const [selectedGenre, setSelectedGenre] = useState<number | null>(null)
     const [selectedPlatforms, setSelectedPlatforms] = useState<number[]>([])
     const [price, setPrice] = useState("")
-    const [gameImage, setGameImage] = useState<File | null>(null)
-    const [imagePreview, setImagePreview] = useState<string | null>(null)
     const [originalCreatorId, setOriginalCreatorId] = useState<number | null>(null)
 
     // Data from server
@@ -40,13 +38,9 @@ export function EditGamePage() {
         genre?: string
         platforms?: string
         price?: string
-        image?: string
         general?: string
         authorization?: string
     }>({})
-
-    // File input ref
-    const fileInputRef = useRef<HTMLInputElement>(null)
 
     // Fetch game data, genres, and platforms when component mounts
     useEffect(() => {
@@ -92,9 +86,6 @@ export function EditGamePage() {
                 setPrice((gameData.price / 100).toFixed(2)) // Convert cents to dollars
                 setOriginalCreatorId(gameData.creatorId)
 
-                // Set image preview
-                setImagePreview(`http://localhost:4941/api/v1/games/${gameId}/image`)
-
                 setDataLoaded(true)
             } catch (err) {
                 console.error("Error fetching data:", err)
@@ -108,43 +99,6 @@ export function EditGamePage() {
 
         fetchData()
     }, [gameId, user?.userId])
-
-    // Handle image selection
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            const file = e.target.files[0]
-
-            // Check file type
-            const validTypes = ["image/jpeg", "image/png", "image/gif"]
-            if (!validTypes.includes(file.type)) {
-                setErrors((prev) => ({
-                    ...prev,
-                    image: "Please select a valid image file (JPEG, PNG, or GIF)",
-                }))
-                return
-            }
-
-            setGameImage(file)
-            setErrors((prev) => ({ ...prev, image: undefined }))
-
-            // Create preview
-            const reader = new FileReader()
-            reader.onloadend = () => {
-                setImagePreview(reader.result as string)
-            }
-            reader.readAsDataURL(file)
-        }
-    }
-
-    // Remove selected image
-    const handleRemoveImage = () => {
-        setGameImage(null)
-        // Reset to original image
-        setImagePreview(`http://localhost:4941/api/v1/games/${gameId}/image`)
-        if (fileInputRef.current) {
-            fileInputRef.current.value = ""
-        }
-    }
 
     // Handle platform selection
     const handlePlatformChange = (platformId: number) => {
@@ -266,23 +220,6 @@ export function EditGamePage() {
                 }
                 setIsSubmitting(false)
                 return
-            }
-
-            // Upload new game image if selected
-            if (gameImage) {
-                const imageResponse = await fetch(`http://localhost:4941/api/v1/games/${gameId}/image`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": gameImage.type,
-                        "X-Authorization": user?.token || "",
-                    },
-                    body: gameImage,
-                })
-
-                if (!imageResponse.ok) {
-                    console.error("Failed to upload game image")
-                    // Continue anyway since the game is updated
-                }
             }
 
             // Navigate to the game details page
@@ -419,44 +356,6 @@ export function EditGamePage() {
                             />
                             <div className="price-hint">Enter 0.00 for free games</div>
                             {errors.price && <div className="field-error">{errors.price}</div>}
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="gameImage">Game Image</label>
-                            <input
-                                type="file"
-                                id="gameImage"
-                                onChange={handleImageChange}
-                                accept="image/jpeg,image/png,image/gif"
-                                ref={fileInputRef}
-                                disabled={isSubmitting}
-                                className="file-input"
-                            />
-                            <div className="file-input-wrapper">
-                                <button
-                                    type="button"
-                                    className="file-input-button"
-                                    onClick={() => fileInputRef.current?.click()}
-                                    disabled={isSubmitting}
-                                >
-                                    Choose New Image
-                                </button>
-                                <span className="file-name">{gameImage ? gameImage.name : "Keep current image"}</span>
-                            </div>
-                            <div className="image-hint">Accepted formats: JPEG, PNG, GIF</div>
-
-                            {imagePreview && (
-                                <div className="image-preview-container">
-                                    <img src={imagePreview || "/placeholder.svg"} alt="Game preview" className="image-preview" />
-                                    {gameImage && (
-                                        <button type="button" className="remove-image" onClick={handleRemoveImage} disabled={isSubmitting}>
-                                            Revert to Original
-                                        </button>
-                                    )}
-                                </div>
-                            )}
-
-                            {errors.image && <div className="field-error">{errors.image}</div>}
                         </div>
 
                         <div className="form-actions">

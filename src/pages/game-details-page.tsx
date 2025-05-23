@@ -9,6 +9,7 @@ import {useAuth} from "../contexts/auth-context"
 import {ConfirmationModal} from "../components/confirmation-modal"
 import { ReviewForm } from "../components/review-form"
 import "../components/css/GameDetailsPage.css"
+import { GameCard } from "../components/game-card"
 
 // Define interfaces for the data we'll be working with
 interface GameDetail {
@@ -258,8 +259,8 @@ export function GameDetailsPage() {
     }
 
     // Handle similar game click
-    const handleSimilarGameClick = (id: number) => {
-        navigate(`/games/${id}`)
+    const handleSimilarGameClick = (gameId: number) => {
+        navigate(`/games/${gameId}`)
         window.scrollTo(0, 0)
     }
 
@@ -488,7 +489,7 @@ export function GameDetailsPage() {
             <div className="game-details-container">
                 <div className="game-header-actions">
                     <button className="back-button" onClick={handleBackClick}>
-                        ← Back to Games
+                        ← Back
                     </button>
                     {isCreator && (
                         <div className="creator-actions">
@@ -498,8 +499,14 @@ export function GameDetailsPage() {
                             <button
                                 className="delete-button"
                                 onClick={handleDeleteClick}
-                                disabled={hasReviews}
-                                title={hasReviews ? "Games with reviews cannot be deleted" : "Delete this game"}
+                                disabled={hasReviews || wishlistCount !== 0 || ownedCount !== 0}
+                                title={
+                                    hasReviews
+                                        ? "Games with reviews cannot be deleted"
+                                        : wishlistCount !== 0 || ownedCount !== 0
+                                            ? "Games wishlisted or owned by users cannot be deleted"
+                                            : "Delete this game"
+                                }
                             >
                                 Delete Game
                             </button>
@@ -693,26 +700,13 @@ export function GameDetailsPage() {
                     ) : (
                         <div className="similar-games-grid">
                             {similarGames.map((game) => (
-                                <div
+                                <GameCard
                                     key={game.gameId}
-                                    className="similar-game-card"
-                                    onClick={() => handleSimilarGameClick(game.gameId)}
-                                ><img
-                                    src={`http://localhost:4941/api/v1/games/${game.gameId}/image`}
-                                    alt={game.title}
-                                    onError={(e) => {
-                                        const target = e.target as HTMLImageElement
-                                        target.src = "https://via.placeholder.com/150x150?text=Game"
-                                    }}
+                                    game={game}
+                                    genre={genres.find((g) => g.genreId === game.genreId)}
+                                    platforms={platforms.filter((p) => game.platformIds.includes(p.platformId))}
+                                    onGameSelect={handleSimilarGameClick}
                                 />
-                                    <div className="similar-game-info">
-                                        <h3>{game.title}</h3>
-                                        <div>
-                                            <span>{genres.find((g) => g.genreId === game.genreId)?.name}</span>
-                                            <span>{formatPrice(game.price)}</span>
-                                        </div>
-                                    </div>
-                                </div>
                             ))}
                         </div>
                     )}

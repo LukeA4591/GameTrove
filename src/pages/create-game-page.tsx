@@ -406,7 +406,7 @@ export function CreateGamePage() {
 
                             {imagePreview && (
                                 <div className="image-preview-container">
-                                    <img src={imagePreview || "/placeholder.svg"} alt="Game preview" className="image-preview" />
+                                    <img src={imagePreview || "/placeholder.svg"} alt="Game preview" className="create-game-image-preview" />
                                     <button type="button" className="remove-image" onClick={handleRemoveImage} disabled={isSubmitting}>
                                         Remove
                                     </button>
